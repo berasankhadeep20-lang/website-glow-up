@@ -92,7 +92,7 @@ const HeroSection = () => {
           className="relative w-48 h-48 mx-auto mb-8"
         >
           <img
-            src="https://avatars.githubusercontent.com/u/berasankhadeep20-lang"
+            src="/images/profile.jpg"
             alt="Sankhadeep Bera"
             className="w-48 h-48 rounded-full border-2 border-primary glow-primary object-cover relative z-10"
             onError={(e) => {
