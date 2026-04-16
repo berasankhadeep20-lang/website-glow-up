@@ -7,10 +7,12 @@ import ProjectsSection from "@/components/ProjectsSection";
 import WorkshopsSection from "@/components/WorkshopsSection";
 import TerminalSection from "@/components/TerminalSection";
 import ContactSection from "@/components/ContactSection";
+import InteractiveEffects from "@/components/InteractiveEffects";
 
 const Index = () => (
   <>
     <ParticleCanvas />
+    <InteractiveEffects />
     <Navbar />
     <HeroSection />
     <EducationSection />
