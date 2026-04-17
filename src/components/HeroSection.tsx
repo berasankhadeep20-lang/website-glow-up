@@ -1,5 +1,6 @@
 import { motion, useMotionValue, useSpring } from "framer-motion";
 import { useState, useEffect, useRef } from "react";
+import profileImg from "@/assets/profile.jpg";
 
 const roles = ["Programmer", "ML Enthusiast", "Quantum Computing Explorer", "Video Editor", "BS-MS Student"];
 
@@ -92,12 +93,9 @@ const HeroSection = () => {
           className="relative w-48 h-48 mx-auto mb-8"
         >
           <img
-            src="/images/profile.jpg"
+            src={profileImg}
             alt="Sankhadeep Bera"
             className="w-48 h-48 rounded-full border-2 border-primary glow-primary object-cover relative z-10"
-            onError={(e) => {
-              (e.target as HTMLImageElement).src = "/placeholder.svg";
-            }}
           />
           <div className="absolute inset-[-12px] rounded-full border-2 border-dashed border-accent animate-spin" style={{ animationDuration: "8s" }} />
           {/* Pulsing ring */}
