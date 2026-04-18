@@ -177,6 +177,8 @@ const Terminal = () => {
     { type: "output", text: "" },
   ]);
   const [input, setInput] = useState("");
+  const [history, setHistory] = useState<string[]>([]);
+  const [historyIdx, setHistoryIdx] = useState<number>(-1);
   const bottomRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
 
@@ -189,8 +191,54 @@ const Terminal = () => {
   }, [lines]);
 
   const handleSubmit = (e: KeyboardEvent<HTMLInputElement>) => {
+    // Tab autocomplete
+    if (e.key === "Tab") {
+      e.preventDefault();
+      const trimmed = input.trim().toLowerCase();
+      if (!trimmed) return;
+      const matches = Object.keys(COMMANDS).filter((c) => c.startsWith(trimmed));
+      if (matches.length === 1) {
+        setInput(matches[0]);
+      } else if (matches.length > 1) {
+        setLines((prev) => [
+          ...prev,
+          { type: "input", text: input },
+          { type: "output", text: matches.join("   ") },
+          { type: "output", text: "" },
+        ]);
+      }
+      return;
+    }
+
+    // History navigation
+    if (e.key === "ArrowUp") {
+      e.preventDefault();
+      if (history.length === 0) return;
+      const next = historyIdx === -1 ? history.length - 1 : Math.max(0, historyIdx - 1);
+      setHistoryIdx(next);
+      setInput(history[next]);
+      return;
+    }
+    if (e.key === "ArrowDown") {
+      e.preventDefault();
+      if (history.length === 0 || historyIdx === -1) return;
+      const next = historyIdx + 1;
+      if (next >= history.length) {
+        setHistoryIdx(-1);
+        setInput("");
+      } else {
+        setHistoryIdx(next);
+        setInput(history[next]);
+      }
+      return;
+    }
+
     if (e.key !== "Enter") return;
     const result = processCommand(input);
+    if (input.trim()) {
+      setHistory((prev) => [...prev, input]);
+    }
+    setHistoryIdx(-1);
     if (result[0] === "__CLEAR__") {
       setLines([]);
     } else {
