@@ -95,6 +95,9 @@ const HeroSection = () => {
           <img
             src={profileImg}
             alt="Sankhadeep Bera"
+            loading="eager"
+            decoding="async"
+            fetchPriority="high"
             className="w-48 h-48 rounded-full border-2 border-primary glow-primary object-cover relative z-10"
           />
           <div className="absolute inset-[-12px] rounded-full border-2 border-dashed border-accent animate-spin" style={{ animationDuration: "8s" }} />

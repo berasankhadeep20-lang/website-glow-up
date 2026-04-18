@@ -180,8 +180,12 @@ const Terminal = () => {
   const bottomRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
 
+  const bodyRef = useRef<HTMLDivElement>(null);
+
   useEffect(() => {
-    bottomRef.current?.scrollIntoView({ behavior: "smooth" });
+    if (bodyRef.current) {
+      bodyRef.current.scrollTop = bodyRef.current.scrollHeight;
+    }
   }, [lines]);
 
   const handleSubmit = (e: KeyboardEvent<HTMLInputElement>) => {
@@ -234,7 +238,7 @@ const Terminal = () => {
       </div>
 
       {/* Terminal body */}
-      <div className="p-4 h-80 overflow-y-auto font-mono text-sm leading-relaxed scrollbar-thin">
+      <div ref={bodyRef} className="p-4 h-80 overflow-y-auto font-mono text-sm leading-relaxed scrollbar-thin">
         {lines.map((line, i) => (
           <div key={i}>
             {line.type === "input" ? (
