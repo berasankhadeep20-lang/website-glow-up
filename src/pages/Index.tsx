@@ -10,6 +10,8 @@ import TerminalSection from "@/components/TerminalSection";
 import ResumeSection from "@/components/ResumeSection";
 import ContactSection from "@/components/ContactSection";
 import InteractiveEffects from "@/components/InteractiveEffects";
+import BlogSection from "@/components/BlogSection";
+import ResearchSection from "@/components/ResearchSection";
 
 const Index = () => {
   useEffect(() => {
@@ -31,6 +33,8 @@ const Index = () => {
       <EducationSection />
       <SkillsSection />
       <ProjectsSection />
+      <ResearchSection />
+      <BlogSection />
       <WorkshopsSection />
       <ResumeSection />
       <TerminalSection />
