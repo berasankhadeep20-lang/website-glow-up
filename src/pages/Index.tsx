@@ -12,6 +12,10 @@ import ContactSection from "@/components/ContactSection";
 import InteractiveEffects from "@/components/InteractiveEffects";
 import BlogSection from "@/components/BlogSection";
 import ResearchSection from "@/components/ResearchSection";
+import GitHubFeed from "@/components/GitHubFeed";
+import CommandPalette from "@/components/CommandPalette";
+import AskSankhadeep from "@/components/AskSankhadeep";
+import ScrollProgress from "@/components/ScrollProgress";
 
 const Index = () => {
   useEffect(() => {
@@ -27,18 +31,22 @@ const Index = () => {
   return (
     <>
       <ParticleCanvas />
+      <ScrollProgress />
       <InteractiveEffects />
+      <CommandPalette />
       <Navbar />
       <HeroSection />
       <EducationSection />
       <SkillsSection />
       <ProjectsSection />
+      <GitHubFeed />
       <ResearchSection />
       <BlogSection />
       <WorkshopsSection />
       <ResumeSection />
       <TerminalSection />
       <ContactSection />
+      <AskSankhadeep />
     </>
   );
 };

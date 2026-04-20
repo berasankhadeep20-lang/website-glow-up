@@ -1,5 +1,6 @@
 import { useState, useRef, useEffect, KeyboardEvent } from "react";
 import { motion } from "framer-motion";
+import { useSound } from "@/contexts/SoundContext";
 
 const INFO: Record<string, string> = {
   name: "Sankhadeep Bera",
@@ -181,6 +182,7 @@ const Terminal = () => {
   const [historyIdx, setHistoryIdx] = useState<number>(-1);
   const bottomRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
+  const { play } = useSound();
 
   const bodyRef = useRef<HTMLDivElement>(null);
 
@@ -194,6 +196,7 @@ const Terminal = () => {
     // Tab autocomplete
     if (e.key === "Tab") {
       e.preventDefault();
+      play("type");
       const trimmed = input.trim().toLowerCase();
       if (!trimmed) return;
       const matches = Object.keys(COMMANDS).filter((c) => c.startsWith(trimmed));
@@ -234,6 +237,7 @@ const Terminal = () => {
     }
 
     if (e.key !== "Enter") return;
+    play("click");
     const result = processCommand(input);
     if (input.trim()) {
       setHistory((prev) => [...prev, input]);
@@ -304,7 +308,10 @@ const Terminal = () => {
           <input
             ref={inputRef}
             value={input}
-            onChange={(e) => setInput(e.target.value)}
+            onChange={(e) => {
+              setInput(e.target.value);
+              play("type");
+            }}
             onKeyDown={handleSubmit}
             className="flex-1 bg-transparent outline-none text-foreground ml-1 caret-primary"
             autoFocus

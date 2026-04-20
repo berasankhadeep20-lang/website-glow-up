@@ -3,6 +3,19 @@ import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
 import { oneDark } from "react-syntax-highlighter/dist/esm/styles/prism";
 import { urlFor } from "@/lib/sanity";
 
+const slugify = (children: any): string => {
+  const text = Array.isArray(children)
+    ? children
+        .map((c) => (typeof c === "string" ? c : c?.props?.children || ""))
+        .join("")
+    : String(children || "");
+  return text
+    .toLowerCase()
+    .replace(/[^\w\s-]/g, "")
+    .trim()
+    .replace(/\s+/g, "-");
+};
+
 const components: PortableTextComponents = {
   types: {
     image: ({ value }) => (
@@ -27,8 +40,16 @@ const components: PortableTextComponents = {
   },
   block: {
     h1: ({ children }) => <h1 className="text-3xl font-bold mt-8 mb-4 gradient-text">{children}</h1>,
-    h2: ({ children }) => <h2 className="text-2xl font-bold mt-6 mb-3 text-foreground">{children}</h2>,
-    h3: ({ children }) => <h3 className="text-xl font-semibold mt-5 mb-2 text-foreground">{children}</h3>,
+    h2: ({ children }) => (
+      <h2 id={slugify(children)} className="text-2xl font-bold mt-8 mb-3 text-foreground scroll-mt-24">
+        {children}
+      </h2>
+    ),
+    h3: ({ children }) => (
+      <h3 id={slugify(children)} className="text-xl font-semibold mt-6 mb-2 text-foreground scroll-mt-24">
+        {children}
+      </h3>
+    ),
     blockquote: ({ children }) => (
       <blockquote className="border-l-4 border-primary pl-4 my-4 italic text-muted-foreground">{children}</blockquote>
     ),
