@@ -36,11 +36,7 @@ const EDGES: [string, string][] = [
   ["data", "stock"],
   ["qiskit", "quantum"],
   ["java", "py"],
-  ["davinci", "media" as any], // unused, keep distinct
 ];
-
-// Filter out edges that reference non-existent nodes
-const validEdges = EDGES.filter(([a, b]) => NODES.find((n) => n.id === a) && NODES.find((n) => n.id === b));
 
 const GROUP_COLORS: Record<string, string> = {
   lang: "primary",
@@ -136,7 +132,7 @@ const SkillsConstellation = () => {
 
       // edges
       ctx.lineWidth = 1;
-      for (const [a, b] of validEdges) {
+      for (const [a, b] of EDGES) {
         const na = nodes.find((n) => n.id === a);
         const nb = nodes.find((n) => n.id === b);
         if (!na || !nb) continue;
