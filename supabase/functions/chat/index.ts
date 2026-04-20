@@ -1,4 +1,8 @@
-import { corsHeaders } from "@supabase/supabase-js/cors";
+const corsHeaders = {
+  "Access-Control-Allow-Origin": "*",
+  "Access-Control-Allow-Headers":
+    "authorization, x-client-info, apikey, content-type, x-supabase-client-platform, x-supabase-client-platform-version, x-supabase-client-runtime, x-supabase-client-runtime-version",
+};
 
 const SYSTEM_PROMPT = `You are "Ask Sankhadeep", a friendly AI assistant on Sankhadeep Bera's portfolio website. Answer visitor questions about Sankhadeep using ONLY the facts below. If asked something you don't know, politely say you don't have that info and suggest they email berasankhadeep20@gmail.com.
 
