@@ -20,19 +20,25 @@ import {
   Sun,
   Moon,
   Volume2,
+  Calendar,
+  Atom,
+  BookHeart,
 } from "lucide-react";
 import { useTheme } from "@/contexts/ThemeContext";
 import { useSound } from "@/contexts/SoundContext";
 
 const SECTIONS = [
+  { id: "now", label: "Now", icon: Calendar },
   { id: "education", label: "Education", icon: GraduationCap },
   { id: "skills", label: "Skills", icon: Wrench },
   { id: "projects", label: "Projects", icon: FolderGit2 },
   { id: "research", label: "Research", icon: BookOpen },
   { id: "blog", label: "Blog", icon: PenSquare },
   { id: "workshops", label: "Workshops", icon: Presentation },
+  { id: "physics", label: "Physics demo", icon: Atom },
   { id: "resume", label: "Resume", icon: FileText },
   { id: "terminal", label: "Terminal", icon: TerminalSquare },
+  { id: "guestbook", label: "Guestbook", icon: BookHeart },
   { id: "contact", label: "Contact", icon: Mail },
 ];
 
