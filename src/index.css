@@ -95,3 +95,29 @@
     background: transparent;
   }
 }
+
+@media print {
+  body * {
+    visibility: hidden;
+  }
+  #resume,
+  #resume * {
+    visibility: visible;
+  }
+  #resume {
+    position: absolute;
+    inset: 0;
+    padding: 2rem;
+    background: white;
+    color: black;
+  }
+  #resume .gradient-text {
+    background: none;
+    -webkit-text-fill-color: black;
+    color: black;
+  }
+  #resume button,
+  #resume a[href*="overleaf"]:nth-of-type(2) {
+    display: none !important;
+  }
+}

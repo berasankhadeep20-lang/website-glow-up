@@ -4,6 +4,7 @@ import ThemeSwitcher from "./ThemeSwitcher";
 import { useActiveSection } from "@/hooks/useActiveSection";
 
 const links = [
+  { label: "Now", href: "now" },
   { label: "Education", href: "education" },
   { label: "Skills", href: "skills" },
   { label: "Projects", href: "projects" },
@@ -11,8 +12,10 @@ const links = [
   { label: "Research", href: "research" },
   { label: "Blog", href: "blog" },
   { label: "Workshops", href: "workshops" },
+  { label: "Physics", href: "physics" },
   { label: "Resume", href: "resume" },
   { label: "Terminal", href: "terminal" },
+  { label: "Guestbook", href: "guestbook" },
   { label: "Contact", href: "contact" },
 ];
 

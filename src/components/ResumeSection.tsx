@@ -1,5 +1,10 @@
 import { motion } from "framer-motion";
-import { FileText, Download, ExternalLink } from "lucide-react";
+import { FileText, Download, ExternalLink, Printer } from "lucide-react";
+import { useEffect } from "react";
+
+const handlePrint = () => {
+  window.print();
+};
 
 const ResumeSection = () => (
   <section id="resume" className="py-24 px-6">
@@ -12,6 +17,12 @@ const ResumeSection = () => (
         <h2 className="text-3xl font-bold gradient-text mb-4">Resume / CV</h2>
         <p className="text-muted-foreground mb-8">
           Download or view my latest resume to learn more about my qualifications and experience.
+          <br />
+          <span className="text-xs">
+            Press{" "}
+            <kbd className="px-1.5 py-0.5 rounded bg-muted text-[10px] border border-border">P</kbd>{" "}
+            to print this page.
+          </span>
         </p>
       </motion.div>
 
@@ -50,10 +61,40 @@ const ResumeSection = () => (
             <Download className="w-4 h-4" />
             Download PDF
           </a>
+          <button
+            onClick={handlePrint}
+            className="border-2 border-accent text-accent px-6 py-2.5 rounded-full font-semibold hover:bg-accent hover:text-accent-foreground transition-all inline-flex items-center gap-2"
+          >
+            <Printer className="w-4 h-4" />
+            Print
+          </button>
         </div>
       </motion.div>
     </div>
+    <PrintShortcut />
   </section>
 );
+
+const PrintShortcut = () => {
+  useEffect(() => {
+    const onKey = (e: KeyboardEvent) => {
+      const tag = (e.target as HTMLElement)?.tagName?.toLowerCase();
+      if (tag === "input" || tag === "textarea") return;
+      if (e.key === "p" && !e.metaKey && !e.ctrlKey && !e.altKey) {
+        // Only trigger when resume section is in view
+        const el = document.getElementById("resume");
+        if (!el) return;
+        const rect = el.getBoundingClientRect();
+        if (rect.top < window.innerHeight && rect.bottom > 0) {
+          e.preventDefault();
+          window.print();
+        }
+      }
+    };
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  }, []);
+  return null;
+};
 
 export default ResumeSection;

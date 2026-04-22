@@ -14,7 +14,51 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      feedback_submissions: {
+        Row: {
+          category: string | null
+          created_at: string
+          id: string
+          message: string
+        }
+        Insert: {
+          category?: string | null
+          created_at?: string
+          id?: string
+          message: string
+        }
+        Update: {
+          category?: string | null
+          created_at?: string
+          id?: string
+          message?: string
+        }
+        Relationships: []
+      }
+      guestbook_entries: {
+        Row: {
+          created_at: string
+          emoji: string | null
+          id: string
+          message: string
+          name: string
+        }
+        Insert: {
+          created_at?: string
+          emoji?: string | null
+          id?: string
+          message: string
+          name: string
+        }
+        Update: {
+          created_at?: string
+          emoji?: string | null
+          id?: string
+          message?: string
+          name?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
