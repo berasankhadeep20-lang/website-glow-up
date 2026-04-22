@@ -1,6 +1,7 @@
 import { motion, useMotionValue, useSpring } from "framer-motion";
 import { useState, useEffect, useRef } from "react";
 import profileImg from "@/assets/profile.jpg";
+import TimeGreeting from "@/components/TimeGreeting";
 
 const roles = ["Programmer", "ML Enthusiast", "Quantum Computing Explorer", "Video Editor", "BS-MS Student"];
 
@@ -104,6 +105,8 @@ const HeroSection = () => {
           {/* Pulsing ring */}
           <div className="absolute inset-[-24px] rounded-full border border-primary/20 animate-ping" style={{ animationDuration: "3s" }} />
         </motion.div>
+
+        <TimeGreeting />
 
         <motion.h1
           initial={{ opacity: 0, y: 20 }}

@@ -1,7 +1,14 @@
 import { Link, useLocation } from "react-router-dom";
 import { useEffect } from "react";
 import { motion } from "framer-motion";
-import { Home, AlertTriangle } from "lucide-react";
+import { Home, AlertTriangle, FolderGit2, BookOpen, Mail, TerminalSquare } from "lucide-react";
+
+const QUICK_LINKS = [
+  { label: "Projects", href: "/#projects", icon: FolderGit2 },
+  { label: "Blog", href: "/#blog", icon: BookOpen },
+  { label: "Terminal", href: "/#terminal", icon: TerminalSquare },
+  { label: "Contact", href: "/#contact", icon: Mail },
+];
 
 const NotFound = () => {
   const location = useLocation();
@@ -48,6 +55,27 @@ const NotFound = () => {
           <Home className="w-4 h-4" />
           Back to Home
         </Link>
+
+        <div className="mt-10 pt-6 border-t border-border/50">
+          <p className="text-xs uppercase tracking-wider text-muted-foreground mb-4">
+            Or jump to
+          </p>
+          <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
+            {QUICK_LINKS.map((q) => {
+              const Icon = q.icon;
+              return (
+                <Link
+                  key={q.label}
+                  to={q.href}
+                  className="glass rounded-xl py-3 px-2 hover:text-primary hover:-translate-y-0.5 transition-all flex flex-col items-center gap-1.5 text-xs"
+                >
+                  <Icon className="w-4 h-4" />
+                  {q.label}
+                </Link>
+              );
+            })}
+          </div>
+        </div>
       </motion.div>
     </div>
   );

@@ -16,6 +16,11 @@ import GitHubFeed from "@/components/GitHubFeed";
 import CommandPalette from "@/components/CommandPalette";
 import AskSankhadeep from "@/components/AskSankhadeep";
 import ScrollProgress from "@/components/ScrollProgress";
+import NowSection from "@/components/NowSection";
+import DoublePendulum from "@/components/DoublePendulum";
+import Guestbook from "@/components/Guestbook";
+import FeedbackBox from "@/components/FeedbackBox";
+import KonamiEasterEgg from "@/components/KonamiEasterEgg";
 
 const Index = () => {
   useEffect(() => {
@@ -34,8 +39,11 @@ const Index = () => {
       <ScrollProgress />
       <InteractiveEffects />
       <CommandPalette />
+      <KonamiEasterEgg />
+      <FeedbackBox />
       <Navbar />
       <HeroSection />
+      <NowSection />
       <EducationSection />
       <SkillsSection />
       <ProjectsSection />
@@ -43,8 +51,10 @@ const Index = () => {
       <ResearchSection />
       <BlogSection />
       <WorkshopsSection />
+      <DoublePendulum />
       <ResumeSection />
       <TerminalSection />
+      <Guestbook />
       <ContactSection />
       <AskSankhadeep />
     </>
