@@ -21,6 +21,9 @@ import DoublePendulum from "@/components/DoublePendulum";
 import Guestbook from "@/components/Guestbook";
 import FeedbackBox from "@/components/FeedbackBox";
 import KonamiEasterEgg from "@/components/KonamiEasterEgg";
+import CodingStats from "@/components/CodingStats";
+import ArxivReadingList from "@/components/ArxivReadingList";
+import RecruiterMode from "@/components/RecruiterMode";
 
 const Index = () => {
   useEffect(() => {
@@ -41,6 +44,7 @@ const Index = () => {
       <CommandPalette />
       <KonamiEasterEgg />
       <FeedbackBox />
+      <RecruiterMode />
       <Navbar />
       <HeroSection />
       <NowSection />
@@ -48,7 +52,9 @@ const Index = () => {
       <SkillsSection />
       <ProjectsSection />
       <GitHubFeed />
+      <CodingStats />
       <ResearchSection />
+      <ArxivReadingList />
       <BlogSection />
       <WorkshopsSection />
       <DoublePendulum />
