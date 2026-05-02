@@ -43,6 +43,17 @@ const DoublePendulum = () => {
     resize();
     window.addEventListener("resize", resize);
 
+    // Resolve CSS HSL tokens to concrete strings (canvas doesn't accept var()).
+    const cssVar = (name: string) =>
+      getComputedStyle(document.documentElement).getPropertyValue(name).trim();
+    const colors = {
+      bg: `hsl(${cssVar("--background")})`,
+      fg: cssVar("--foreground"),
+      primary: cssVar("--primary"),
+      secondary: cssVar("--secondary"),
+      muted: cssVar("--muted-foreground"),
+    };
+
     const m1 = 1, m2 = 1, L1 = 1, L2 = 1, g = 9.81;
 
     const derivatives = (a1: number, a2: number, a1v: number, a2v: number) => {
@@ -103,7 +114,7 @@ const DoublePendulum = () => {
       const y2 = y1 + scale * Math.cos(s.a2);
 
       // fade trail
-      ctx.fillStyle = `hsl(var(--background) / 0.18)`;
+      ctx.fillStyle = `hsla(${colors.bg.replace("hsl(", "").replace(")", "")}, 0.18)`;
       ctx.fillRect(0, 0, w, h);
 
       // trail
@@ -114,7 +125,7 @@ const DoublePendulum = () => {
         const p = s.trail[i];
         const prev = s.trail[i - 1];
         const alpha = i / s.trail.length;
-        ctx.strokeStyle = `hsl(var(--secondary) / ${alpha * 0.8})`;
+        ctx.strokeStyle = `hsla(${colors.secondary}, ${alpha * 0.8})`;
         ctx.lineWidth = 1.2;
         ctx.beginPath();
         ctx.moveTo(prev.x, prev.y);
@@ -123,7 +134,7 @@ const DoublePendulum = () => {
       }
 
       // rods
-      ctx.strokeStyle = `hsl(var(--foreground) / 0.6)`;
+      ctx.strokeStyle = `hsla(${colors.fg}, 0.6)`;
       ctx.lineWidth = 2;
       ctx.beginPath();
       ctx.moveTo(cx, cy);
@@ -132,17 +143,17 @@ const DoublePendulum = () => {
       ctx.stroke();
 
       // pivot
-      ctx.fillStyle = `hsl(var(--muted-foreground))`;
+      ctx.fillStyle = `hsl(${colors.muted})`;
       ctx.beginPath();
       ctx.arc(cx, cy, 4, 0, Math.PI * 2);
       ctx.fill();
 
       // bobs
-      ctx.fillStyle = `hsl(var(--primary))`;
+      ctx.fillStyle = `hsl(${colors.primary})`;
       ctx.beginPath();
       ctx.arc(x1, y1, 9, 0, Math.PI * 2);
       ctx.fill();
-      ctx.fillStyle = `hsl(var(--secondary))`;
+      ctx.fillStyle = `hsl(${colors.secondary})`;
       ctx.beginPath();
       ctx.arc(x2, y2, 9, 0, Math.PI * 2);
       ctx.fill();
