@@ -23,6 +23,8 @@ import {
   Calendar,
   Atom,
   BookHeart,
+  Code2,
+  BookMarked,
 } from "lucide-react";
 import { useTheme } from "@/contexts/ThemeContext";
 import { useSound } from "@/contexts/SoundContext";
@@ -32,7 +34,9 @@ const SECTIONS = [
   { id: "education", label: "Education", icon: GraduationCap },
   { id: "skills", label: "Skills", icon: Wrench },
   { id: "projects", label: "Projects", icon: FolderGit2 },
+  { id: "coding", label: "Coding stats", icon: Code2 },
   { id: "research", label: "Research", icon: BookOpen },
+  { id: "reading", label: "arXiv reading list", icon: BookMarked },
   { id: "blog", label: "Blog", icon: PenSquare },
   { id: "workshops", label: "Workshops", icon: Presentation },
   { id: "physics", label: "Physics demo", icon: Atom },
