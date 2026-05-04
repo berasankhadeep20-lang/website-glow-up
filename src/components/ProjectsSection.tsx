@@ -3,6 +3,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { Github, Star, GitFork, ExternalLink, X } from "lucide-react";
 import { useTilt } from "@/hooks/useTilt";
 import { useSound } from "@/contexts/SoundContext";
+import TechBadge from "@/components/TechBadge";
 
 interface Project {
   title: string;
@@ -115,9 +116,7 @@ const TiltCard = ({ p, onClick, i }: { p: Project; onClick: () => void; i: numbe
       <p className="text-sm text-muted-foreground leading-relaxed mb-4">{p.desc}</p>
       <div className="flex flex-wrap gap-2">
         {p.tags.map((tag) => (
-          <span key={tag} className="text-xs px-2.5 py-1 rounded-full bg-muted text-muted-foreground">
-            {tag}
-          </span>
+          <TechBadge key={tag} tag={tag} />
         ))}
       </div>
       <div className="absolute top-5 right-5 text-muted-foreground group-hover:text-primary transition-colors text-sm">
@@ -217,9 +216,7 @@ const ProjectModal = ({ p, onClose }: { p: Project; onClose: () => void }) => {
 
           <div className="flex flex-wrap gap-2 mt-6">
             {p.tags.map((t) => (
-              <span key={t} className="text-xs px-2.5 py-1 rounded-full bg-muted text-muted-foreground">
-                {t}
-              </span>
+              <TechBadge key={t} tag={t} size="md" />
             ))}
           </div>
         </div>
@@ -230,8 +227,33 @@ const ProjectModal = ({ p, onClose }: { p: Project; onClose: () => void }) => {
 
 const ProjectsSection = () => {
   const [open, setOpen] = useState<Project | null>(null);
+  const jsonLd = {
+    "@context": "https://schema.org",
+    "@type": "ItemList",
+    name: "Sankhadeep Bera — Projects",
+    itemListElement: projects.map((p, i) => ({
+      "@type": "ListItem",
+      position: i + 1,
+      item: {
+        "@type": "SoftwareSourceCode",
+        name: p.title,
+        description: p.longDesc,
+        codeRepository: p.url,
+        programmingLanguage: p.tags.filter((t) =>
+          ["Python", "Java", "TypeScript", "JavaScript"].includes(t)
+        ),
+        keywords: p.tags.join(", "),
+        author: { "@type": "Person", name: "Sankhadeep Bera" },
+        ...(p.demoUrl ? { url: p.demoUrl } : {}),
+      },
+    })),
+  };
   return (
     <section id="projects" className="py-24 px-6">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
       <div className="max-w-5xl mx-auto">
         <h2 className="text-3xl font-bold gradient-text mb-4 text-center">Projects</h2>
         <p className="text-center text-muted-foreground text-sm mb-12">
