@@ -227,8 +227,33 @@ const ProjectModal = ({ p, onClose }: { p: Project; onClose: () => void }) => {
 
 const ProjectsSection = () => {
   const [open, setOpen] = useState<Project | null>(null);
+  const jsonLd = {
+    "@context": "https://schema.org",
+    "@type": "ItemList",
+    name: "Sankhadeep Bera — Projects",
+    itemListElement: projects.map((p, i) => ({
+      "@type": "ListItem",
+      position: i + 1,
+      item: {
+        "@type": "SoftwareSourceCode",
+        name: p.title,
+        description: p.longDesc,
+        codeRepository: p.url,
+        programmingLanguage: p.tags.filter((t) =>
+          ["Python", "Java", "TypeScript", "JavaScript"].includes(t)
+        ),
+        keywords: p.tags.join(", "),
+        author: { "@type": "Person", name: "Sankhadeep Bera" },
+        ...(p.demoUrl ? { url: p.demoUrl } : {}),
+      },
+    })),
+  };
   return (
     <section id="projects" className="py-24 px-6">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
       <div className="max-w-5xl mx-auto">
         <h2 className="text-3xl font-bold gradient-text mb-4 text-center">Projects</h2>
         <p className="text-center text-muted-foreground text-sm mb-12">
