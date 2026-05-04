@@ -15,6 +15,9 @@ interface Project {
   emoji: string;
   highlights: string[];
   demoUrl?: string;
+  image?: string;
+  datePublished?: string;
+  license?: string;
 }
 
 const projects: Project[] = [
@@ -32,6 +35,9 @@ const projects: Project[] = [
       "Per-circuit feature engineering (street vs permanent track)",
       "Backtested across multiple recent F1 seasons",
     ],
+    image: "https://opengraph.githubassets.com/1/berasankhadeep20-lang/F1-AI-Predictor",
+    datePublished: "2024-08-01",
+    license: "https://opensource.org/licenses/MIT",
   },
   {
     title: "LLM for Stock Market",
@@ -47,6 +53,9 @@ const projects: Project[] = [
       "Sentiment scoring on news and earnings reports",
       "Generates plain-English daily briefs",
     ],
+    image: "https://opengraph.githubassets.com/1/berasankhadeep20-lang/LLM-For-stock-market",
+    datePublished: "2024-10-01",
+    license: "https://opensource.org/licenses/MIT",
   },
   {
     title: "AI Football Predictor",
@@ -62,6 +71,9 @@ const projects: Project[] = [
       "Probability calibration via isotonic regression",
       "Multi-league training data",
     ],
+    image: "https://opengraph.githubassets.com/1/berasankhadeep20-lang/AI-Football-Match-Outcome-Predictor",
+    datePublished: "2025-01-15",
+    license: "https://opensource.org/licenses/MIT",
   },
   {
     title: "Freight Rate Intelligence",
@@ -80,6 +92,9 @@ const projects: Project[] = [
       "GitHub Actions cron every 6h, auto-deploy to GitHub Pages",
     ],
     demoUrl: "https://lnkd.in/gPsc-xW4",
+    image: "https://opengraph.githubassets.com/1/berasankhadeep20-lang/freight-rate-intelligence",
+    datePublished: "2026-04-15",
+    license: "https://opensource.org/licenses/MIT",
   },
 ];
 
@@ -227,6 +242,7 @@ const ProjectModal = ({ p, onClose }: { p: Project; onClose: () => void }) => {
 
 const ProjectsSection = () => {
   const [open, setOpen] = useState<Project | null>(null);
+  const siteUrl = "https://berasankhadeep20-lang.github.io/website-glow-up/";
   const jsonLd = {
     "@context": "https://schema.org",
     "@type": "ItemList",
@@ -234,20 +250,47 @@ const ProjectsSection = () => {
     itemListElement: projects.map((p, i) => ({
       "@type": "ListItem",
       position: i + 1,
+      url: `${siteUrl}#projects`,
       item: {
         "@type": "SoftwareSourceCode",
         name: p.title,
         description: p.longDesc,
         codeRepository: p.url,
+        url: p.demoUrl || p.url,
+        image: p.image,
+        ...(p.datePublished ? { datePublished: p.datePublished } : {}),
+        ...(p.license ? { license: p.license } : {}),
         programmingLanguage: p.tags.filter((t) =>
           ["Python", "Java", "TypeScript", "JavaScript"].includes(t)
         ),
         keywords: p.tags.join(", "),
         author: { "@type": "Person", name: "Sankhadeep Bera" },
-        ...(p.demoUrl ? { url: p.demoUrl } : {}),
       },
     })),
   };
+  // Per-project OG/Twitter meta tags injected into <head> for richer link previews
+  useEffect(() => {
+    const tags: HTMLMetaElement[] = [];
+    const add = (attr: "property" | "name", key: string, content: string) => {
+      const m = document.createElement("meta");
+      m.setAttribute(attr, key);
+      m.setAttribute("content", content);
+      m.setAttribute("data-project-meta", "true");
+      document.head.appendChild(m);
+      tags.push(m);
+    };
+    projects.forEach((p) => {
+      add("property", "og:see_also", p.demoUrl || p.url);
+      if (p.image) {
+        add("property", "og:image", p.image);
+        add("name", "twitter:image", p.image);
+      }
+      add("name", `project:${p.title}:description`, p.desc);
+    });
+    return () => {
+      tags.forEach((t) => t.remove());
+    };
+  }, []);
   return (
     <section id="projects" className="py-24 px-6">
       <script
