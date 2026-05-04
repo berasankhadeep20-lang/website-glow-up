@@ -62,6 +62,24 @@ const projects: Project[] = [
       "Multi-league training data",
     ],
   },
+  {
+    title: "Freight Rate Intelligence",
+    desc: "Zero-cost freight market dashboard built on public equity proxies and Fed data — auto-updated every 6 hours.",
+    longDesc:
+      "Most logistics intelligence (Freightos, DAT, Baltic Exchange) is locked behind expensive APIs. Instead, this pipeline tracks publicly traded freight movers — BDRY (Baltic Dry), ZIM (container spot), XPO (LTL trucking) — as real-time proxies for the underlying rate environment. Combined with FRED macro series, it surfaces week-over-week shifts, anomaly z-scores, and cross-modal contagion via a Pearson correlation matrix. Total infra cost: $0.",
+    url: "https://github.com/berasankhadeep20-lang",
+    repo: "berasankhadeep20-lang/freight-rate-intelligence",
+    tags: ["Python", "yfinance", "FRED", "SQLite", "GitHub Actions"],
+    emoji: "🚢",
+    highlights: [
+      "6 market proxies via yfinance + 2 FRED macro series — no paid keys",
+      "SQLite store with dedup so re-runs never corrupt history",
+      "WoW % change + rolling Z-score anomaly alerts",
+      "Pearson correlation matrix for cross-modal contagion signals",
+      "GitHub Actions cron every 6h, auto-deploy to GitHub Pages",
+    ],
+    demoUrl: "https://lnkd.in/gPsc-xW4",
+  },
 ];
 
 const TiltCard = ({ p, onClick, i }: { p: Project; onClick: () => void; i: number }) => {
