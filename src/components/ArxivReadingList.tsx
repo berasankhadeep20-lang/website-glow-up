@@ -62,7 +62,7 @@ const ArxivReadingList = () => {
         </p>
         <div className="flex justify-center mb-10">
           <a
-            href="https://arxiv.org/a/sankhadeep04"
+            href="https://arxiv.org/search/?searchtype=author&query=Sankhadeep+Bera"
             target="_blank"
             rel="noopener noreferrer"
             className="inline-flex items-center gap-2 px-4 py-2 rounded-full glass border border-primary/40 text-sm text-primary hover:bg-primary hover:text-primary-foreground transition-colors"
