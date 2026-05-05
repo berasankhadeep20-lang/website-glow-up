@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
-import { BookMarked, ExternalLink } from "lucide-react";
+import { BookMarked, ExternalLink, User } from "lucide-react";
 
 // Hand-curated arXiv papers Sankhadeep is reading / interested in.
 // Edit IDs to update the reading list.
@@ -57,9 +57,21 @@ const ArxivReadingList = () => {
         <h2 className="text-3xl font-bold gradient-text mb-2 text-center flex items-center justify-center gap-3">
           <BookMarked className="w-7 h-7" /> arXiv Reading List
         </h2>
-        <p className="text-center text-muted-foreground text-sm mb-10">
+        <p className="text-center text-muted-foreground text-sm mb-6">
           Papers I'm currently reading or revisiting · pulled live from arxiv.org
         </p>
+        <div className="flex justify-center mb-10">
+          <a
+            href="https://arxiv.org/a/sankhadeep04"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center gap-2 px-4 py-2 rounded-full glass border border-primary/40 text-sm text-primary hover:bg-primary hover:text-primary-foreground transition-colors"
+          >
+            <User className="w-4 h-4" />
+            View arXiv Profile
+            <ExternalLink className="w-3.5 h-3.5" />
+          </a>
+        </div>
 
         {error ? (
           <p className="text-center text-muted-foreground text-sm">{error}</p>
