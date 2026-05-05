@@ -5,6 +5,7 @@ import { BookMarked, ExternalLink } from "lucide-react";
 // Hand-curated arXiv papers Sankhadeep is reading / interested in.
 // Edit IDs to update the reading list.
 const ARXIV_IDS = [
+  "2605.00980", // Currently reading
   "1411.4028", // QAOA — Farhi
   "1706.03762", // Attention Is All You Need
   "1905.10876", // Expressibility & Entangling Capability
