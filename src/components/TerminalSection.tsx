@@ -25,16 +25,65 @@ const COMMANDS: Record<string, string> = {
   contact: "Display contact info",
   socials: "Show social media links",
   "cat about.txt": "Read about me",
+  "cat about.md": "Read about me (markdown)",
+  "cd projects": "Change directory to projects",
+  "cd ..": "Go up one directory",
+  theme: "Cycle theme (dark / light / sepia / system)",
   clear: "Clear the terminal",
   neofetch: "System-style info summary",
-  ls: "List available info files",
+  ls: "List files in current directory",
   pwd: "Print working directory",
   date: "Show current date",
   echo: "Repeat your text (usage: echo <text>)",
+  sudo: "Try it.",
+  exit: "Close session (joke)",
 };
+
+let cwd = "~";
 
 function processCommand(input: string): string[] {
   const cmd = input.trim().toLowerCase();
+
+  if (cmd === "cd projects") {
+    cwd = "~/projects";
+    return [`cwd → ${cwd}`];
+  }
+  if (cmd === "cd ~" || cmd === "cd" || cmd === "cd /") {
+    cwd = "~";
+    return [`cwd → ${cwd}`];
+  }
+  if (cmd === "cd ..") {
+    cwd = cwd === "~/projects" ? "~" : cwd;
+    return [`cwd → ${cwd}`];
+  }
+  if (cmd === "theme") {
+    const root = document.documentElement;
+    const order = ["dark", "light", "sepia"];
+    const current = order.find((c) => root.classList.contains(c)) || "dark";
+    const next = order[(order.indexOf(current) + 1) % order.length];
+    order.forEach((c) => root.classList.toggle(c, c === next));
+    try { localStorage.setItem("theme-mode", next); } catch {}
+    return [`Theme switched → ${next}`];
+  }
+  if (cmd === "sudo" || cmd.startsWith("sudo ")) {
+    return ["[sudo] password for sankhadeep: ", "Sorry, this incident will be reported. 😉"];
+  }
+  if (cmd === "exit") {
+    return ["Nice try. You're stuck here forever 🪤"];
+  }
+  if (cmd === "cat about.md") {
+    return [
+      "# Sankhadeep Bera",
+      "",
+      "**BS-MS @ IISER Kolkata** · Programmer · Editor",
+      "",
+      "- 🧠 Interests: ML, Quantum Computing, Sports analytics",
+      "- 🛠 Stack: Python · Java · Qiskit · scikit-learn",
+      "- 🎬 Hobby: Colour grading in DaVinci Resolve",
+      "",
+      "> Type `projects` to see what I'm building.",
+    ];
+  }
 
   if (cmd === "help") {
     return [
@@ -147,10 +196,13 @@ function processCommand(input: string): string[] {
     ];
   }
   if (cmd === "ls") {
-    return ["about.txt  education  skills  projects  workshops  contact  socials"];
+    if (cwd === "~/projects") {
+      return ["f1-predictor/  llm-stocks/  football-predictor/  freight-intel/"];
+    }
+    return ["about.txt  about.md  education  skills  projects/  workshops  contact  socials"];
   }
   if (cmd === "pwd") {
-    return ["/home/sankhadeep/portfolio"];
+    return [`/home/sankhadeep/${cwd === "~" ? "" : cwd.replace("~/", "")}`];
   }
   if (cmd === "date") {
     return [new Date().toString()];
