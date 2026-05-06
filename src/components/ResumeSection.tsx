@@ -1,6 +1,7 @@
 import { motion } from "framer-motion";
 import { FileText, Download, ExternalLink, Printer } from "lucide-react";
 import { useEffect } from "react";
+import SmartResumeTailor from "@/components/SmartResumeTailor";
 
 const handlePrint = () => {
   window.print();
@@ -71,6 +72,7 @@ const ResumeSection = () => (
         </div>
       </motion.div>
     </div>
+    <SmartResumeTailor />
     <PrintShortcut />
   </section>
 );

@@ -1,9 +1,11 @@
 import { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Github, Star, GitFork, ExternalLink, X } from "lucide-react";
+import { Github, Star, GitFork, ExternalLink, X, Sparkles, Loader2 } from "lucide-react";
+import ReactMarkdown from "react-markdown";
 import { useTilt } from "@/hooks/useTilt";
 import { useSound } from "@/contexts/SoundContext";
 import TechBadge from "@/components/TechBadge";
+import { streamFromFunction } from "@/lib/streamChat";
 
 interface Project {
   title: string;
@@ -143,6 +145,29 @@ const TiltCard = ({ p, onClick, i }: { p: Project; onClick: () => void; i: numbe
 
 const ProjectModal = ({ p, onClose }: { p: Project; onClose: () => void }) => {
   const [stats, setStats] = useState<{ stars: number; forks: number; updated?: string } | null>(null);
+  const [persona, setPersona] = useState<"recruiter" | "researcher" | "developer" | null>(null);
+  const [explanation, setExplanation] = useState("");
+  const [aiLoading, setAiLoading] = useState(false);
+  const [aiError, setAiError] = useState<string | null>(null);
+
+  const generate = async (who: "recruiter" | "researcher" | "developer") => {
+    setPersona(who);
+    setExplanation("");
+    setAiError(null);
+    setAiLoading(true);
+    try {
+      await streamFromFunction(
+        "project-explainer",
+        { project: p, persona: who },
+        (chunk) => setExplanation((prev) => prev + chunk),
+      );
+    } catch (e) {
+      setAiError(e instanceof Error ? e.message : "Failed to generate explanation");
+    } finally {
+      setAiLoading(false);
+    }
+  };
+
   useEffect(() => {
     fetch(`https://api.github.com/repos/${p.repo}`)
       .then((r) => (r.ok ? r.json() : null))
@@ -227,6 +252,35 @@ const ProjectModal = ({ p, onClose }: { p: Project; onClose: () => void }) => {
                 </li>
               ))}
             </ul>
+          </div>
+
+          <div className="mt-6 pt-6 border-t border-border/50">
+            <h4 className="text-xs font-semibold uppercase tracking-wider text-primary mb-3 flex items-center gap-2">
+              <Sparkles className="w-3.5 h-3.5" /> AI Explainer — tailored for…
+            </h4>
+            <div className="flex flex-wrap gap-2 mb-3">
+              {(["recruiter", "researcher", "developer"] as const).map((w) => (
+                <button
+                  key={w}
+                  onClick={() => generate(w)}
+                  disabled={aiLoading}
+                  className={`text-xs px-3 py-1.5 rounded-full border transition-colors ${
+                    persona === w
+                      ? "bg-primary text-primary-foreground border-primary"
+                      : "border-border text-muted-foreground hover:text-primary hover:border-primary/60"
+                  } disabled:opacity-50`}
+                >
+                  {w.charAt(0).toUpperCase() + w.slice(1)}
+                </button>
+              ))}
+              {aiLoading && <Loader2 className="w-4 h-4 animate-spin text-primary self-center" />}
+            </div>
+            {aiError && <p className="text-xs text-destructive">{aiError}</p>}
+            {explanation && (
+              <div className="prose prose-sm prose-invert max-w-none text-sm text-muted-foreground bg-muted/30 rounded-lg p-4">
+                <ReactMarkdown>{explanation}</ReactMarkdown>
+              </div>
+            )}
           </div>
 
           <div className="flex flex-wrap gap-2 mt-6">

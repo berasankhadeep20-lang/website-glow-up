@@ -24,6 +24,9 @@ import KonamiEasterEgg from "@/components/KonamiEasterEgg";
 import CodingStats from "@/components/CodingStats";
 import ArxivReadingList from "@/components/ArxivReadingList";
 import RecruiterMode from "@/components/RecruiterMode";
+import LiveLLMDemo from "@/components/LiveLLMDemo";
+import ContributionGlobe from "@/components/ContributionGlobe";
+import QuantumPlayground from "@/components/QuantumPlayground";
 
 const Index = () => {
   useEffect(() => {
@@ -52,13 +55,16 @@ const Index = () => {
       <SkillsSection />
       <ProjectsSection />
       <GitHubFeed />
+      <ContributionGlobe />
       <CodingStats />
       <ResearchSection />
       <ArxivReadingList />
+      <QuantumPlayground />
       <BlogSection />
       <WorkshopsSection />
       <DoublePendulum />
       <ResumeSection />
+      <LiveLLMDemo />
       <TerminalSection />
       <Guestbook />
       <ContactSection />

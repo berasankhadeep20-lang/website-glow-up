@@ -1,6 +1,6 @@
 import { createContext, useContext, useEffect, useState, ReactNode } from "react";
 
-type Mode = "dark" | "light";
+type Mode = "dark" | "light" | "sepia" | "system";
 
 export interface AccentPreset {
   id: string;
@@ -39,8 +39,13 @@ const applyAccent = (a: AccentPreset) => {
 
 const applyMode = (m: Mode) => {
   const root = document.documentElement;
-  root.classList.toggle("light", m === "light");
-  root.classList.toggle("dark", m === "dark");
+  let resolved: "dark" | "light" | "sepia" = m === "system" ? "dark" : m;
+  if (m === "system" && typeof window !== "undefined" && window.matchMedia) {
+    resolved = window.matchMedia("(prefers-color-scheme: light)").matches ? "light" : "dark";
+  }
+  root.classList.toggle("light", resolved === "light");
+  root.classList.toggle("dark", resolved === "dark");
+  root.classList.toggle("sepia", resolved === "sepia");
 };
 
 export const ThemeProvider = ({ children }: { children: ReactNode }) => {
@@ -57,6 +62,11 @@ export const ThemeProvider = ({ children }: { children: ReactNode }) => {
   useEffect(() => {
     applyMode(mode);
     localStorage.setItem("theme-mode", mode);
+    if (mode !== "system" || typeof window === "undefined") return;
+    const mq = window.matchMedia("(prefers-color-scheme: light)");
+    const handler = () => applyMode("system");
+    mq.addEventListener("change", handler);
+    return () => mq.removeEventListener("change", handler);
   }, [mode]);
 
   useEffect(() => {
@@ -71,7 +81,11 @@ export const ThemeProvider = ({ children }: { children: ReactNode }) => {
         setMode: setModeState,
         accent,
         setAccent: setAccentState,
-        toggleMode: () => setModeState((p) => (p === "dark" ? "light" : "dark")),
+        toggleMode: () =>
+          setModeState((p) => {
+            const order: Mode[] = ["dark", "light", "sepia", "system"];
+            return order[(order.indexOf(p) + 1) % order.length];
+          }),
       }}
     >
       {children}
