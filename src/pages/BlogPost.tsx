@@ -34,6 +34,19 @@ function extractToc(body: any[] | undefined): TocItem[] {
     });
 }
 
+// Compute reading time from portable text body when CMS field missing.
+function computeReadingTime(body: any[] | undefined): number {
+  if (!Array.isArray(body)) return 1;
+  const words = body
+    .filter((b: any) => b._type === "block")
+    .flatMap((b: any) => (b.children || []).map((c: any) => c.text || ""))
+    .join(" ")
+    .trim()
+    .split(/\s+/)
+    .filter(Boolean).length;
+  return Math.max(1, Math.round(words / 220));
+}
+
 const BlogPostPage = () => {
   const { slug } = useParams<{ slug: string }>();
   const [post, setPost] = useState<BlogPostT | null>(null);
@@ -55,6 +68,10 @@ const BlogPostPage = () => {
   }, [slug]);
 
   const toc = useMemo(() => extractToc(post?.body), [post]);
+  const readingMinutes = useMemo(
+    () => post?.readingTimeMinutes || computeReadingTime(post?.body),
+    [post],
+  );
 
   useEffect(() => {
     if (toc.length === 0) return;
@@ -115,7 +132,7 @@ const BlogPostPage = () => {
               </span>
             )}
             <span>{formatDate(post.publishedAt)}</span>
-            {post.readingTimeMinutes && <span>· {post.readingTimeMinutes} min read</span>}
+            <span>· {readingMinutes} min read</span>
           </div>
 
           <h1 className="text-4xl md:text-5xl font-bold gradient-text mb-6">{post.title}</h1>
