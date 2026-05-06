@@ -12,6 +12,18 @@ const CATEGORIES = ["all", "ml", "quantum", "iiser", "programming", "other"];
 const formatDate = (iso: string) =>
   new Date(iso).toLocaleDateString("en-US", { year: "numeric", month: "short", day: "numeric" });
 
+function computeReadingTime(body: any[] | undefined): number {
+  if (!Array.isArray(body)) return 1;
+  const words = body
+    .filter((b: any) => b._type === "block")
+    .flatMap((b: any) => (b.children || []).map((c: any) => c.text || ""))
+    .join(" ")
+    .trim()
+    .split(/\s+/)
+    .filter(Boolean).length;
+  return Math.max(1, Math.round(words / 220));
+}
+
 const BlogSection = () => {
   const [posts, setPosts] = useState<BlogPost[]>([]);
   const [loading, setLoading] = useState(true);
@@ -86,7 +98,7 @@ const BlogSection = () => {
                       </span>
                     )}
                     <span>{formatDate(post.publishedAt)}</span>
-                    {post.readingTimeMinutes && <span>· {post.readingTimeMinutes} min read</span>}
+                    <span>· {post.readingTimeMinutes || computeReadingTime((post as any).body)} min read</span>
                   </div>
                   <h3 className="text-lg font-bold mb-2 text-foreground">{post.title}</h3>
                   {post.excerpt && <p className="text-sm text-muted-foreground line-clamp-3">{post.excerpt}</p>}
