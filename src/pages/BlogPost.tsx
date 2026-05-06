@@ -67,6 +67,28 @@ const BlogPostPage = () => {
     window.scrollTo(0, 0);
   }, [slug]);
 
+  // Inject dynamic OG image meta tags pointing at our edge function.
+  useEffect(() => {
+    if (!post) return;
+    const ogUrl = `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/og-image?slug=${encodeURIComponent(post.slug.current)}&title=${encodeURIComponent(post.title)}&category=${encodeURIComponent(post.category || "")}`;
+    const tags: HTMLMetaElement[] = [];
+    const add = (attr: "property" | "name", key: string, content: string) => {
+      const m = document.createElement("meta");
+      m.setAttribute(attr, key);
+      m.setAttribute("content", content);
+      m.setAttribute("data-blog-og", "true");
+      document.head.appendChild(m);
+      tags.push(m);
+    };
+    add("property", "og:title", post.title);
+    if (post.excerpt) add("property", "og:description", post.excerpt);
+    add("property", "og:image", ogUrl);
+    add("property", "og:type", "article");
+    add("name", "twitter:card", "summary_large_image");
+    add("name", "twitter:image", ogUrl);
+    return () => tags.forEach((t) => t.remove());
+  }, [post]);
+
   const toc = useMemo(() => extractToc(post?.body), [post]);
   const readingMinutes = useMemo(
     () => post?.readingTimeMinutes || computeReadingTime(post?.body),
