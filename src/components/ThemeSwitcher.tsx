@@ -1,11 +1,11 @@
 import { useState, useEffect, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Palette, Moon, Sun, Volume2, VolumeX } from "lucide-react";
+import { Palette, Moon, Sun, Volume2, VolumeX, BookOpen, Monitor } from "lucide-react";
 import { useTheme, ACCENTS } from "@/contexts/ThemeContext";
 import { useSound } from "@/contexts/SoundContext";
 
 const ThemeSwitcher = () => {
-  const { mode, toggleMode, accent, setAccent } = useTheme();
+  const { mode, setMode, accent, setAccent } = useTheme();
   const { enabled: soundOn, toggle: toggleSound, play } = useSound();
   const [open, setOpen] = useState(false);
   const ref = useRef<HTMLDivElement>(null);
@@ -38,18 +38,35 @@ const ThemeSwitcher = () => {
             exit={{ opacity: 0, y: -8, scale: 0.95 }}
             className="absolute right-0 top-12 w-64 glass rounded-2xl p-4 shadow-xl z-50"
           >
-            <div className="flex items-center justify-between mb-3">
+            <div className="mb-3">
               <span className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">Mode</span>
-              <button
-                onClick={() => {
-                  toggleMode();
-                  play("click");
-                }}
-                className="flex items-center gap-2 px-3 py-1.5 rounded-full bg-muted/60 text-xs hover:text-primary transition-colors"
-              >
-                {mode === "dark" ? <Moon className="w-3 h-3" /> : <Sun className="w-3 h-3" />}
-                {mode === "dark" ? "Dark" : "Light"}
-              </button>
+              <div className="grid grid-cols-4 gap-1.5 mt-2">
+                {([
+                  { id: "dark", icon: Moon, label: "Dark" },
+                  { id: "light", icon: Sun, label: "Light" },
+                  { id: "sepia", icon: BookOpen, label: "Sepia" },
+                  { id: "system", icon: Monitor, label: "System" },
+                ] as const).map((m) => {
+                  const Icon = m.icon;
+                  const active = mode === m.id;
+                  return (
+                    <button
+                      key={m.id}
+                      onClick={() => {
+                        setMode(m.id);
+                        play("click");
+                      }}
+                      className={`flex flex-col items-center gap-1 px-2 py-2 rounded-lg text-[10px] transition-colors ${
+                        active ? "bg-primary text-primary-foreground" : "bg-muted/60 hover:text-primary"
+                      }`}
+                      title={m.label}
+                    >
+                      <Icon className="w-3.5 h-3.5" />
+                      {m.label}
+                    </button>
+                  );
+                })}
+              </div>
             </div>
             <div className="flex items-center justify-between mb-4">
               <span className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">Sound</span>
