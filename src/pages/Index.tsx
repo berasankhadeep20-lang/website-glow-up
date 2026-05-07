@@ -27,6 +27,15 @@ import RecruiterMode from "@/components/RecruiterMode";
 import LiveLLMDemo from "@/components/LiveLLMDemo";
 import ContributionGlobe from "@/components/ContributionGlobe";
 import QuantumPlayground from "@/components/QuantumPlayground";
+import SchrodingerVisualizer from "@/components/features/SchrodingerVisualizer";
+import LatticeBoltzmann from "@/components/features/LatticeBoltzmann";
+import QuantumAlgorithmShowcase from "@/components/features/QuantumAlgorithmShowcase";
+import BellInequality from "@/components/features/BellInequality";
+import ArxivRecommender from "@/components/features/ArxivRecommender";
+import SportsPredictors from "@/components/features/SportsPredictors";
+import IISERSection from "@/components/features/IISERSection";
+import PersonalKolkata from "@/components/features/PersonalKolkata";
+import CodeforcesCard from "@/components/features/CodeforcesCard";
 
 const Index = () => {
   useEffect(() => {
@@ -54,15 +63,24 @@ const Index = () => {
       <EducationSection />
       <SkillsSection />
       <ProjectsSection />
+      <SportsPredictors />
       <GitHubFeed />
       <ContributionGlobe />
       <CodingStats />
+      <CodeforcesCard />
+      <IISERSection />
       <ResearchSection />
       <ArxivReadingList />
+      <ArxivRecommender />
       <QuantumPlayground />
+      <QuantumAlgorithmShowcase />
+      <BellInequality />
+      <SchrodingerVisualizer />
+      <LatticeBoltzmann />
       <BlogSection />
       <WorkshopsSection />
       <DoublePendulum />
+      <PersonalKolkata />
       <ResumeSection />
       <LiveLLMDemo />
       <TerminalSection />
