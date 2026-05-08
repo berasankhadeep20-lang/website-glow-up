@@ -51,6 +51,8 @@ function fft(re: Float64Array, im: Float64Array, inverse = false) {
 const SchrodingerVisualizer = () => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const [running, setRunning] = useState(true);
+  const runningRef = useRef(true);
+  useEffect(() => { runningRef.current = running; }, [running]);
   const stateRef = useRef({
     psiRe: new Float64Array(N),
     psiIm: new Float64Array(N),
@@ -68,6 +70,13 @@ const SchrodingerVisualizer = () => {
       psiRe[i] = env * Math.cos(k0 * i * DX);
       psiIm[i] = env * Math.sin(k0 * i * DX);
     }
+    // Normalize so that sum |ψ|² * DX = 1
+    let norm = 0;
+    for (let i = 0; i < N; i++) norm += psiRe[i] * psiRe[i] + psiIm[i] * psiIm[i];
+    norm = Math.sqrt(norm * DX);
+    if (norm > 0) {
+      for (let i = 0; i < N; i++) { psiRe[i] /= norm; psiIm[i] /= norm; }
+    }
   };
 
   const clearV = () => stateRef.current.V.fill(0);
@@ -76,6 +85,7 @@ const SchrodingerVisualizer = () => {
     initPacket();
     // default barrier
     const { V } = stateRef.current;
+    V.fill(0);
     for (let i = 140; i < 150; i++) V[i] = 5;
 
     const canvas = canvasRef.current!;
@@ -128,7 +138,7 @@ const SchrodingerVisualizer = () => {
     };
 
     const render = () => {
-      if (running) for (let k = 0; k < 4; k++) step();
+      if (runningRef.current) for (let k = 0; k < 4; k++) step();
       const w = canvas.clientWidth, h = canvas.clientHeight;
       ctx.fillStyle = "hsl(var(--card))";
       ctx.fillRect(0, 0, w, h);
@@ -149,7 +159,7 @@ const SchrodingerVisualizer = () => {
       for (let i = 0; i < N; i++) {
         const x = (i / N) * w;
         const p = s.psiRe[i] * s.psiRe[i] + s.psiIm[i] * s.psiIm[i];
-        const y = h - p * h * 30;
+        const y = h - p * h * 4;
         i === 0 ? ctx.moveTo(x, y) : ctx.lineTo(x, y);
       }
       ctx.stroke();
@@ -180,7 +190,7 @@ const SchrodingerVisualizer = () => {
       canvas.removeEventListener("mousemove", move);
       window.removeEventListener("mouseup", up);
     };
-  }, [running]);
+  }, []);
 
   return (
     <section id="schrodinger" className="py-24 px-6">
