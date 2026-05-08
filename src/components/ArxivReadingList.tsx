@@ -44,7 +44,8 @@ const ArxivReadingList = () => {
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    const url = `https://export.arxiv.org/api/query?id_list=${ARXIV_IDS.join(",")}`;
+    const base = `https://${import.meta.env.VITE_SUPABASE_PROJECT_ID}.supabase.co/functions/v1/arxiv-proxy`;
+    const url = `${base}?id_list=${ARXIV_IDS.join(",")}`;
     fetch(url)
       .then((r) => (r.ok ? r.text() : Promise.reject(r.status)))
       .then((xml) => setPapers(parseFeed(xml)))
