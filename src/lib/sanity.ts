@@ -10,7 +10,7 @@ export const sanityClient = createClient({
   useCdn: true,
 });
 
-const builder = imageUrlBuilder(sanityClient);
+const builder = createImageUrlBuilder(sanityClient);
 
 export function urlFor(source: SanityImageSource) {
   return builder.image(source);
