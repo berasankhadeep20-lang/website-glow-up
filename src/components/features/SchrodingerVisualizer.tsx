@@ -148,7 +148,7 @@ const SchrodingerVisualizer = () => {
       ctx.fillRect(0, 0, w, h);
       const s = stateRef.current;
       // Potential
-      ctx.strokeStyle = `hsla(${mutedVar.replaceAll("%","%")}, 0.5)`;
+      ctx.strokeStyle = `hsla(${mutedVar}, 0.5)`;
       ctx.lineWidth = 1;
       ctx.beginPath();
       for (let i = 0; i < N; i++) {
