@@ -140,11 +140,16 @@ const SchrodingerVisualizer = () => {
     const render = () => {
       if (runningRef.current) for (let k = 0; k < 4; k++) step();
       const w = canvas.clientWidth, h = canvas.clientHeight;
-      ctx.fillStyle = "hsl(var(--card))";
+      const css = getComputedStyle(canvas);
+      const cardVar = getComputedStyle(document.documentElement).getPropertyValue("--card").trim() || "222 47% 11%";
+      const mutedVar = getComputedStyle(document.documentElement).getPropertyValue("--muted-foreground").trim() || "215 20% 65%";
+      const primaryVar = getComputedStyle(document.documentElement).getPropertyValue("--primary").trim() || "217 91% 60%";
+      ctx.fillStyle = `hsl(${cardVar})`;
       ctx.fillRect(0, 0, w, h);
       const s = stateRef.current;
       // Potential
-      ctx.strokeStyle = "hsl(var(--muted-foreground) / 0.5)";
+      ctx.strokeStyle = `hsla(${mutedVar.replaceAll("%","%")}, 0.5)`;
+      ctx.lineWidth = 1;
       ctx.beginPath();
       for (let i = 0; i < N; i++) {
         const x = (i / N) * w;
@@ -153,7 +158,7 @@ const SchrodingerVisualizer = () => {
       }
       ctx.stroke();
       // |psi|^2
-      ctx.strokeStyle = "hsl(var(--primary))";
+      ctx.strokeStyle = `hsl(${primaryVar})`;
       ctx.lineWidth = 2;
       ctx.beginPath();
       for (let i = 0; i < N; i++) {
