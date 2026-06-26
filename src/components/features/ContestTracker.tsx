@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { CalendarClock, ExternalLink } from "lucide-react";
 
-type Contest = { id: number; name: string; startTimeSeconds: number; durationSeconds: number; type: string };
+type Contest = { id: number; name: string; startTimeSeconds: number; durationSeconds: number; type: string; phase: string };
 
 const ContestTracker = () => {
   const [contests, setContests] = useState<Contest[]>([]);
