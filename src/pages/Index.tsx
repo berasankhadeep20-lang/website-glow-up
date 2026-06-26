@@ -36,6 +36,16 @@ import SportsPredictors from "@/components/features/SportsPredictors";
 import IISERSection from "@/components/features/IISERSection";
 import PersonalKolkata from "@/components/features/PersonalKolkata";
 import CodeforcesCard from "@/components/features/CodeforcesCard";
+import BlochSphereExplorer from "@/components/features/BlochSphereExplorer";
+import QuantumCircuitBuilder from "@/components/features/QuantumCircuitBuilder";
+import IsingModel from "@/components/features/IsingModel";
+import FourierExplorer from "@/components/features/FourierExplorer";
+import DoubleSlit from "@/components/features/DoubleSlit";
+import QuantumErrorCorrection from "@/components/features/QuantumErrorCorrection";
+import ContestTracker from "@/components/features/ContestTracker";
+import WeakTopicAnalyzer from "@/components/features/WeakTopicAnalyzer";
+import RatingPredictor from "@/components/features/RatingPredictor";
+import ProblemOfTheDay from "@/components/features/ProblemOfTheDay";
 
 const Index = () => {
   useEffect(() => {
@@ -68,15 +78,25 @@ const Index = () => {
       <ContributionGlobe />
       <CodingStats />
       <CodeforcesCard />
+      <ContestTracker />
+      <ProblemOfTheDay />
+      <WeakTopicAnalyzer />
+      <RatingPredictor />
       <IISERSection />
       <ResearchSection />
       <ArxivReadingList />
       <ArxivRecommender />
       <QuantumPlayground />
+      <BlochSphereExplorer />
+      <QuantumCircuitBuilder />
       <QuantumAlgorithmShowcase />
+      <QuantumErrorCorrection />
       <BellInequality />
+      <DoubleSlit />
       <SchrodingerVisualizer />
       <LatticeBoltzmann />
+      <IsingModel />
+      <FourierExplorer />
       <BlogSection />
       <WorkshopsSection />
       <DoublePendulum />
